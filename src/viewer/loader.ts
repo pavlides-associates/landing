@@ -18,6 +18,7 @@ const DISCIPLINE_LABELS: Record<string, string> = {
   mep: "Μηχανολογικά",
   mechanical: "Μηχανολογικά",
   "m e p": "Μηχανολογικά",
+  equipment: "Εξοπλισμός",
 };
 
 // "01 Structural.ifc" -> "Στατικά" ; "architecture.ifc" -> "Αρχιτεκτονικά".
