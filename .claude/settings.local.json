@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:docs.thatopen.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -s https://registry.npmjs.org/@thatopen/components/latest)",
+      "Bash(curl -s https://registry.npmjs.org/@thatopen/fragments/latest)",
+      "Bash(curl -s https://registry.npmjs.org/@thatopen/components-front/latest)",
+      "Bash(curl -s https://registry.npmjs.org/web-ifc/latest)",
+      "Bash(curl -s https://registry.npmjs.org/three/latest)",
+      "Bash(mkdir -p src/viewer)",
+      "Bash(mv src/main.ts src/viewer.ts src/loader.ts src/disciplines.ts src/ui.ts src/style.css src/viewer/)",
+      "Read(//private/tmp/**)"
+    ]
+  }
+}

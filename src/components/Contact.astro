@@ -1,0 +1,116 @@
+---
+// [TODO: confirm with firm — replace placeholders with real contact details]
+const office = {
+  street: "[Street and number]",
+  city: "[Postal code, City]",
+  country: "Greece",
+  phone: "+30 210 000 0000",
+  email: "office@grafpa.gr",
+  hours: "Monday – Friday, 09:00 – 18:00 EET",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Athens",
+};
+---
+<section id="contact" class="contact">
+  <div class="container contact-grid">
+    <div class="meta-col" data-reveal>
+      <p class="eyebrow"><span class="num">05</span> &nbsp; CONTACT</p>
+    </div>
+
+    <div class="body-col">
+      <h2 data-reveal>For new commissions and quiet questions.</h2>
+
+      <dl class="contact-list" data-reveal>
+        <div class="contact-row">
+          <dt>Studio</dt>
+          <dd>
+            {office.street}<br />
+            {office.city}<br />
+            {office.country}
+          </dd>
+        </div>
+        <div class="contact-row">
+          <dt>Telephone</dt>
+          <dd><a href={`tel:${office.phone.replace(/\s+/g, "")}`}>{office.phone}</a></dd>
+        </div>
+        <div class="contact-row">
+          <dt>Email</dt>
+          <dd><a class="email" href={`mailto:${office.email}`}>{office.email}</a></dd>
+        </div>
+        <div class="contact-row">
+          <dt>Hours</dt>
+          <dd>{office.hours}</dd>
+        </div>
+        <div class="contact-row">
+          <dt>Map</dt>
+          <dd>
+            <a href={office.mapsUrl} target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--paper);
+    border-top: 1px solid var(--silver);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .meta-col .eyebrow .num { color: var(--accent); margin-right: 6px; }
+  .body-col h2 { max-width: 22ch; }
+
+  .contact-list {
+    margin: 32px 0 0;
+    border-top: 1px solid var(--silver);
+  }
+  .contact-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--silver);
+  }
+  .contact-row dt {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--concrete);
+  }
+  .contact-row dd {
+    margin: 0;
+    color: var(--ink);
+    font-size: var(--fs-body);
+    line-height: 1.5;
+  }
+  .contact-row a {
+    border-bottom: 1px solid transparent;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .contact-row a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+  /* The one place red appears outside the brand mark — only on hover. */
+  .contact-row a.email:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  @media (min-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 3fr 9fr;
+      gap: var(--col-gap);
+    }
+    .contact-row {
+      grid-template-columns: 4fr 8fr;
+      column-gap: var(--col-gap);
+      align-items: baseline;
+    }
+  }
+</style>

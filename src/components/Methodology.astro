@@ -1,0 +1,99 @@
+---
+const steps = [
+  {
+    n: "I",
+    title: "Listen, then survey",
+    body:
+      "The first weeks are spent with the client and the site. We make measured drawings, sun studies, and a written brief — these are the only things that survive every later decision.",
+  },
+  {
+    n: "II",
+    title: "Design with engineers in the room",
+    body:
+      "Structure, services, and envelope are sketched in parallel from day one. Coordinated models replace clash-detection later; we'd rather spend the time once, early, than three times, late.",
+  },
+  {
+    n: "III",
+    title: "Detail at full scale",
+    body:
+      "Every junction that the eye and hand will ever meet is drawn at 1:5 or 1:1. The contractor gets a buildable set, not a wishlist — and we are on site weekly through construction.",
+  },
+  {
+    n: "IV",
+    title: "Hand over, then return",
+    body:
+      "After completion we visit at six months and at one year — to learn what the building taught us, and to fix what wants fixing while it is still small.",
+  },
+];
+// [TODO: confirm with firm]
+---
+<section id="methodology" class="methodology">
+  <div class="container">
+    <header class="m-header">
+      <p class="eyebrow" data-reveal><span class="num">04</span> &nbsp; METHODOLOGY</p>
+      <h2 data-reveal>How a building gets made, here.</h2>
+    </header>
+
+    <ol class="m-list" role="list">
+      {steps.map((s) => (
+        <li class="m-row" data-reveal>
+          <span class="m-num" aria-hidden="true">{s.n}</span>
+          <div class="m-body">
+            <h3 class="m-title">{s.title}</h3>
+            <p class="m-text">{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .methodology {
+    background: var(--paper);
+    border-top: 1px solid var(--silver);
+  }
+  .m-header { margin-bottom: 56px; }
+  .m-header h2 { max-width: 20ch; }
+
+  .m-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--silver);
+  }
+  .m-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 16px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--silver);
+    align-items: baseline;
+  }
+  .m-num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-h2);
+    color: var(--concrete);
+    letter-spacing: 0.04em;
+  }
+  .m-title {
+    font-size: var(--fs-h2);
+    margin: 0;
+    max-width: 22ch;
+  }
+  .m-text {
+    margin-top: 8px;
+    color: var(--graphite);
+    max-width: 64ch;
+  }
+
+  @media (min-width: 768px) {
+    .m-row {
+      grid-template-columns: 96px 6fr 6fr;
+      column-gap: var(--col-gap);
+      padding: 40px 0;
+      align-items: start;
+    }
+    .m-text { margin-top: 0; }
+  }
+</style>

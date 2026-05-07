@@ -1,0 +1,50 @@
+---
+---
+<section id="philosophy" class="philosophy">
+  <div class="container philosophy-grid">
+    <div class="meta-col" data-reveal>
+      <p class="eyebrow"><span class="num">02</span> &nbsp; PHILOSOPHY</p>
+    </div>
+    <div class="body-col">
+      <h2 data-reveal>
+        We build for the long use, not the first photograph.
+        <!-- [TODO: confirm with firm] -->
+      </h2>
+      <p class="lead" data-reveal>
+        Architecture, for us, is the slow business of getting a few things right: how a building meets the
+        ground, how a room receives the light, how a window opens with one hand. We work in close coordination
+        with engineers and craft, and we resist the temptation to add what does not need to be there.
+      </p>
+      <p data-reveal>
+        Founded in Greece, the practice has now over two decades of quiet work — single-family houses, civic
+        buildings, restorations, and one or two larger projects. Each is treated as the only one we are doing.
+        <!-- [TODO: confirm with firm] -->
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .philosophy {
+    background: var(--paper);
+    border-top: 1px solid var(--silver);
+  }
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .meta-col .eyebrow .num {
+    color: var(--accent);
+    margin-right: 6px;
+  }
+  .body-col > * + * { margin-top: 20px; }
+  .body-col h2 { max-width: 22ch; }
+
+  @media (min-width: 768px) {
+    .philosophy-grid {
+      grid-template-columns: 3fr 9fr;
+      gap: var(--col-gap);
+    }
+  }
+</style>

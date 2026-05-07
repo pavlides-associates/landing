@@ -1,0 +1,114 @@
+---
+import { projects } from "../data/projects";
+---
+<section id="projects" class="projects">
+  <div class="container">
+    <header class="projects-header">
+      <p class="eyebrow" data-reveal><span class="num">03</span> &nbsp; SELECTED PROJECTS</p>
+      <h2 data-reveal>Five buildings from the last decade.</h2>
+    </header>
+
+    <div class="projects-grid">
+      {projects.map((p, i) => {
+        const left = p.span[0];
+        const right = p.span[1];
+        const flip = i % 2 === 1;
+        return (
+          <article class="project" data-reveal style={`--span-a:${flip ? right : left};--span-b:${flip ? left : right};`}>
+            <div class={"project-image " + (flip ? "is-right" : "is-left")} aria-hidden="true">
+              <div class="placeholder">
+                <span class="placeholder-num">{p.number}</span>
+                <span class="placeholder-label">[Project image]</span>
+              </div>
+            </div>
+            <div class="project-copy">
+              <p class="meta">{p.number} &nbsp;·&nbsp; {p.location} &nbsp;·&nbsp; {p.year}</p>
+              <h3>{p.title}</h3>
+              <p>{p.description}</p>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects {
+    background: var(--paper);
+    border-top: 1px solid var(--silver);
+  }
+  .projects-header {
+    margin-bottom: 64px;
+  }
+  .projects-header h2 { max-width: 20ch; }
+
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(64px, 8vw, 120px);
+  }
+
+  .project {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .project-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: var(--bone);
+    border: 1px solid var(--silver);
+    overflow: hidden;
+    position: relative;
+  }
+  .placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--concrete);
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        transparent 0 22px,
+        rgba(118, 116, 112, 0.06) 22px 23px
+      ),
+      var(--bone);
+  }
+  .placeholder-num {
+    font-family: var(--font-display);
+    font-size: 56px;
+    color: var(--silver);
+    letter-spacing: 0;
+    line-height: 1;
+    font-variation-settings: "opsz" 144, "wght" 350;
+  }
+
+  .project-copy h3 { margin-top: 8px; max-width: 18ch; }
+  .project-copy p { margin-top: 12px; }
+
+  @media (min-width: 768px) {
+    .project {
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: var(--col-gap);
+      align-items: start;
+    }
+    .project-image.is-left  { grid-column: 1 / span var(--span-a); }
+    .project-image.is-right { grid-column: span var(--span-a) / -1; order: 2; }
+    .project-copy {
+      grid-column: span var(--span-b);
+      align-self: end;
+      padding-block: 16px;
+    }
+    .project:nth-child(even) .project-copy { order: 1; }
+  }
+</style>

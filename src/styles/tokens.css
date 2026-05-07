@@ -1,0 +1,66 @@
+:root {
+  /* Surfaces */
+  --paper:      #F7F5F0;
+  --bone:       #EDEAE3;
+  --silver:     #D7D3CB;
+
+  /* Ink */
+  --ink:        #111111;
+  --graphite:   #3A3A38;
+  --concrete:   #767470;
+
+  /* Accent — used at most ~4 times across the page */
+  --accent:     #B23C2E;
+  --accent-ink: #8C2E22;
+
+  /* Dark surface — only inside the viewer showcase */
+  --shadow:     #1A1A1A;
+  --shadow-2:   #242424;
+
+  /* Type families */
+  --font-display: "Fraunces Variable", Georgia, serif;
+  --font-sans:    "Inter Variable", system-ui, -apple-system, sans-serif;
+  --font-mono:    ui-monospace, "JetBrains Mono Variable", monospace;
+
+  /* Type scale (mobile-first) */
+  --fs-hero:  56px;
+  --fs-h1:    36px;
+  --fs-h2:    24px;
+  --fs-lead:  18px;
+  --fs-body:  16px;
+  --fs-small: 13px;
+  --fs-micro: 11px;
+
+  /* Layout */
+  --max-w:        1280px;
+  --gutter:       24px;
+  --col-gap:      24px;
+  --section-pad:  clamp(96px, 12vw, 160px);
+
+  /* Motion */
+  --ease:    cubic-bezier(0.2, 0.6, 0.2, 1);
+  --dur:     400ms;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --fs-hero:  96px;
+    --fs-h1:    56px;
+    --fs-h2:    32px;
+    --fs-lead:  22px;
+    --fs-body:  17px;
+    --gutter:   64px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --col-gap: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0ms;
+  }
+}

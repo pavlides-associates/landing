@@ -1,0 +1,64 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container footer-row">
+    <div class="footer-brand">
+      <span class="footer-mark" aria-hidden="true"></span>
+      <span>Pavlides Associates</span>
+    </div>
+    <p class="footer-meta">
+      © {year} ΓΡΑΦΕΙΟ ΠΑΥΛΙΔΗ Α.Τ.Ε.Μ.
+      <span class="sep">·</span>
+      [TODO: tax / corporate ID]
+    </p>
+    <p class="footer-credit">Site by [TODO: credit if appropriate].</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--paper);
+    border-top: 1px solid var(--silver);
+    padding-block: 48px;
+  }
+  .footer-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    color: var(--concrete);
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--graphite);
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-variation-settings: "opsz" 14, "wght" 500;
+  }
+  .footer-mark {
+    width: 10px;
+    height: 10px;
+    background: var(--ink);
+  }
+  .footer-meta { margin: 0; }
+  .footer-meta .sep { margin: 0 8px; color: var(--silver); }
+  .footer-credit { margin: 0; }
+
+  @media (min-width: 768px) {
+    .footer-row {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+  }
+</style>

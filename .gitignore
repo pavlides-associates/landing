@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+.astro
+.env
+.env.local
+.env.production
+
+# Source IFCs are converter input only — not shipped, kept local.
+# Re-generate public/models/ via `npm run convert`.
+ifc/

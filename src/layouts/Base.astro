@@ -1,0 +1,56 @@
+---
+import "@fontsource-variable/fraunces/index.css";
+import "@fontsource-variable/inter/index.css";
+import "../styles/tokens.css";
+import "../styles/reset.css";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Pavlides Associates — Architecture",
+  description = "ΓΡΑΦΕΙΟ ΠΑΥΛΙΔΗ Α.Τ.Ε.Μ. — selected work and a building, in depth.",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F7F5F0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og.jpg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <slot />
+    <script>
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
+      if (prefersReduced) {
+        targets.forEach((el) => el.setAttribute("data-revealed", "true"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.setAttribute("data-revealed", "true");
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
+        );
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

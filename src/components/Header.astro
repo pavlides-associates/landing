@@ -1,0 +1,195 @@
+---
+const navItems = [
+  { href: "#showcase", label: "In Depth" },
+  { href: "#philosophy", label: "Philosophy" },
+  { href: "#projects", label: "Projects" },
+  { href: "#methodology", label: "Methodology" },
+  { href: "#contact", label: "Contact" },
+];
+---
+<header class="site-header" data-header>
+  <div class="container header-row">
+    <a class="brand" href="#top" aria-label="Pavlides Associates — home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">
+        <span class="brand-en">Pavlides Associates</span>
+        <span class="brand-gr">ΓΡΑΦΕΙΟ ΠΑΥΛΙΔΗ Α.Τ.Ε.Μ.</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul role="list">
+        {navItems.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Header behavior:
+  //   - At the very top: visible, no border (page hasn't moved yet).
+  //   - Scrolling down past the hero: hide (get out of the reading).
+  //   - Scrolling up: show again, with a hairline border so it sits clearly above the page.
+  //   - While the dark showcase section is behind the header: hide entirely
+  //     (its colors clash with the dark-on-dark / paper-on-dark situation).
+  //
+  // Hover/keyboard focus inside the header keeps it visible — otherwise the
+  // nav would vanish from under the cursor during a scrubbed scroll.
+  const header = document.querySelector<HTMLElement>(".site-header");
+  if (header) {
+    let lastY = window.scrollY;
+    let hovering = false;
+    let overDark = false;
+    let ticking = false;
+
+    const HIDE_THRESHOLD = 32; // px scrolled before we start hiding
+    const TOP_BAND = 8;        // treat top as "at top"
+
+    const apply = () => {
+      ticking = false;
+      const y = window.scrollY;
+      const delta = y - lastY;
+      const atTop = y <= TOP_BAND;
+
+      header.classList.toggle("at-top", atTop);
+
+      if (atTop || hovering) {
+        header.classList.remove("is-hidden");
+      } else if (overDark) {
+        header.classList.add("is-hidden");
+      } else if (Math.abs(delta) > 2) {
+        if (delta > 0 && y > HIDE_THRESHOLD) header.classList.add("is-hidden");
+        else if (delta < 0) header.classList.remove("is-hidden");
+      }
+
+      lastY = y;
+    };
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(apply);
+      }
+    }, { passive: true });
+
+    header.addEventListener("pointerenter", () => { hovering = true; apply(); });
+    header.addEventListener("pointerleave", () => { hovering = false; });
+    header.addEventListener("focusin",      () => { hovering = true; apply(); });
+    header.addEventListener("focusout",     () => { hovering = false; });
+
+    // Hide while the dark showcase section sits behind the header.
+    // rootMargin's top is `-headerHeight` so we trigger right when it crosses.
+    const showcase = document.querySelector("#showcase");
+    if (showcase) {
+      const headerHeight = header.getBoundingClientRect().height;
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            overDark = entry.isIntersecting;
+          }
+          apply();
+        },
+        { rootMargin: `-${headerHeight}px 0px -85% 0px`, threshold: 0 },
+      );
+      io.observe(showcase);
+    }
+
+    apply();
+  }
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid var(--silver);
+    transition:
+      transform var(--dur) var(--ease),
+      border-color var(--dur) var(--ease),
+      opacity var(--dur) var(--ease);
+    will-change: transform;
+  }
+  /* At very top of page: drop the hairline so the header doesn't visually
+     compete with the hero's top edge. */
+  .site-header.at-top {
+    border-bottom-color: transparent;
+  }
+  .site-header.is-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 16px;
+    gap: 24px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+  }
+  .brand:hover { color: var(--ink); }
+  .brand-mark {
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    flex: 0 0 14px;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .brand-en {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-variation-settings: "opsz" 14, "wght" 500, "SOFT" 30;
+    letter-spacing: -0.005em;
+  }
+  .brand-gr {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--concrete);
+    margin-top: 3px;
+  }
+  .site-nav { display: none; }
+  .site-nav ul {
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .site-nav a {
+    font-size: var(--fs-small);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--graphite);
+    padding-block: 4px;
+    border-bottom: 1px solid transparent;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .site-nav a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+  @media (min-width: 900px) {
+    .site-nav { display: block; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header { transition: none; }
+  }
+</style>

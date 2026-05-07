@@ -1,0 +1,32 @@
+{
+  "name": "pavlides-associates-landing",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "convert": "tsx scripts/convert-ifc.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.1.0",
+    "@fontsource-variable/inter": "^5.1.0",
+    "@thatopen/components": "3.4.5",
+    "@thatopen/fragments": "3.4.5",
+    "astro": "^6.0.0",
+    "camera-controls": "^3.1.2",
+    "three": "0.184.0",
+    "web-ifc": "0.0.77"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/three": "^0.184.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

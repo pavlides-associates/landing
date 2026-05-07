@@ -1,0 +1,63 @@
+---
+---
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <p class="eyebrow" data-reveal>PAVLIDES ASSOCIATES — Α.Τ.Ε.Μ.</p>
+    <h1 data-reveal>
+      Quiet buildings, made with care, sited with patience.
+      <!-- [TODO: confirm with firm] -->
+    </h1>
+    <p class="lead hero-sub" data-reveal>
+      A studio of architects and engineers based in Greece, working across residential, civic and
+      restoration projects. We design slowly, we build precisely, and we stay until the door closes
+      behind the client.
+      <!-- [TODO: confirm with firm] -->
+    </p>
+    <a class="hero-scroll" href="#showcase" aria-label="Scroll to the project in depth">
+      <span>Project in depth</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 4v16M5 13l7 7 7-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    /* Mobile: ~85vh so a sliver of the dark Showcase below is visible —
+       a tactile hint that there's more to scroll, not just a full-bleed wall. */
+    min-height: 85vh;
+    padding-top: clamp(120px, 18vh, 200px);
+    padding-bottom: clamp(48px, 8vh, 96px);
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: var(--paper);
+  }
+  @media (min-width: 768px) {
+    .hero { min-height: 80vh; }
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .hero h1 {
+    max-width: 18ch;
+  }
+  .hero-sub { max-width: 56ch; }
+  .hero-scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--graphite);
+  }
+  .hero-scroll svg { transition: transform var(--dur) var(--ease); }
+  .hero-scroll:hover svg { transform: translateY(2px); }
+</style>
