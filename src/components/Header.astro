@@ -1,22 +1,24 @@
 ---
 const navItems = [
-  { href: "#showcase", label: "In Depth" },
-  { href: "#philosophy", label: "Philosophy" },
-  { href: "#projects", label: "Projects" },
-  { href: "#methodology", label: "Methodology" },
-  { href: "#contact", label: "Contact" },
+  { href: "#showcase", label: "Σε βάθος" },
+  { href: "#philosophy", label: "Φιλοσοφία" },
+  { href: "#projects", label: "Έργα" },
+  { href: "#methodology", label: "Μεθοδολογία" },
+  { href: "#contact", label: "Επικοινωνία" },
 ];
 ---
 <header class="site-header" data-header>
   <div class="container header-row">
-    <a class="brand" href="#top" aria-label="Pavlides Associates — home">
-      <span class="brand-mark" aria-hidden="true"></span>
-      <span class="brand-text">
-        <span class="brand-en">Pavlides Associates</span>
-        <span class="brand-gr">ΓΡΑΦΕΙΟ ΠΑΥΛΙΔΗ Α.Τ.Ε.Μ.</span>
-      </span>
+    <a class="brand" href="#top" aria-label="Γραφείο Παυλίδη Α.Τ.Ε.Μ. — αρχική">
+      <img
+        class="brand-logo"
+        src="/brand/logo.png"
+        alt=""
+        width="2171"
+        height="425"
+      />
     </a>
-    <nav class="site-nav" aria-label="Primary">
+    <nav class="site-nav" aria-label="Κύρια πλοήγηση">
       <ul role="list">
         {navItems.map((item) => (
           <li><a href={item.href}>{item.label}</a></li>
@@ -135,34 +137,21 @@ const navItems = [
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
     color: var(--ink);
   }
-  .brand:hover { color: var(--ink); }
-  .brand-mark {
-    width: 14px;
-    height: 14px;
-    background: var(--accent);
-    flex: 0 0 14px;
+  .brand-logo {
+    /* Lockup includes mark + wordmark + tagline. Sized so the wordmark
+       reads at roughly the same weight as the surrounding nav links. */
+    height: 36px;
+    width: auto;
+    display: block;
   }
-  .brand-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
+  @media (min-width: 900px) {
+    .brand-logo { height: 40px; }
   }
-  .brand-en {
-    font-family: var(--font-display);
-    font-size: 17px;
-    font-variation-settings: "opsz" 14, "wght" 500, "SOFT" 30;
-    letter-spacing: -0.005em;
-  }
-  .brand-gr {
-    font-family: var(--font-mono);
-    font-size: var(--fs-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--concrete);
-    margin-top: 3px;
+  @media (max-width: 480px) {
+    /* On narrow phones, shrink so the lockup doesn't crowd the right edge. */
+    .brand-logo { height: 30px; }
   }
   .site-nav { display: none; }
   .site-nav ul {

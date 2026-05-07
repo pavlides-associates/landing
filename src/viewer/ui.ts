@@ -11,7 +11,7 @@ export function buildSidebar(viewer: Viewer, disciplines: DisciplineModel[]) {
     const empty = document.createElement("p");
     empty.style.color = "var(--muted)";
     empty.style.fontSize = "12px";
-    empty.textContent = "No models found. Drop .frag files into /public/models/ (or run npm run convert).";
+    empty.textContent = "Δεν βρέθηκαν μοντέλα. Τοποθετήστε αρχεία .frag στο /public/models/ (ή εκτελέστε npm run convert).";
     list.appendChild(empty);
     return;
   }

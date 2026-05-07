@@ -8,51 +8,52 @@ export interface Project {
   span: [number, number];
 }
 
-// [TODO: confirm with firm — replace placeholder titles, locations, years, copy]
+// Επιλεγμένα έργα από το χαρτοφυλάκιο του γραφείου. Πηγή: grafpa.gr.
+// [TODO: επιβεβαίωση χρονολογιών / τοποθεσίας από το γραφείο]
 export const projects: Project[] = [
   {
     number: "01",
-    title: "Hellinikon Residence",
-    location: "Athens, GR",
-    year: "2024",
+    title: "Γυμνάσιο – Λύκειο Ελληνογερμανικής Αγωγής",
+    location: "Παλλήνη",
+    year: "—",
     description:
-      "A coastal house cut into the slope: three terraces, a single concrete spine, courtyards that read the prevailing wind.",
+      "Εκπαιδευτικό συγκρότημα για την Ελληνογερμανική Αγωγή — οργάνωση γύρω από κεντρικό αίθριο, φυσικό φως σε όλες τις τάξεις, καθαρή ανάγνωση κυκλοφορίας από την είσοδο ως την αυλή.",
     span: [7, 5],
   },
   {
     number: "02",
-    title: "Kifisia Office Block",
-    location: "Kifisia, GR",
-    year: "2023",
+    title: "Κέντρο Αποκατάστασης Ωρωπού",
+    location: "Ωρωπός",
+    year: "—",
     description:
-      "A workplace organised around a continuous timber stair — daylight from above, the city read in long horizontal frames.",
+      "Κέντρο αποθεραπείας και αποκατάστασης — διάταξη που ευνοεί την κίνηση, νότιο φως στους χώρους θεραπείας, υλικά ζεστά στην αφή σε ένα κτίριο που ζητείται να είναι κοινωνικό και ήρεμο μαζί.",
     span: [5, 7],
   },
   {
     number: "03",
-    title: "Mykonos Atelier",
-    location: "Mykonos, GR",
-    year: "2022",
+    title: "Πρεσβευτική Κατοικία Κουβέιτ",
+    location: "Αθήνα",
+    year: "—",
     description:
-      "A working studio for a sculptor: thick whitewashed walls, north light, a single covered loggia for the long summer.",
+      "Κατοικία πρεσβευτή σε αστικό περιβάλλον — δύο επίπεδα δημόσιας χρήσης, ένα ιδιωτικό από πάνω, και κήπος που λύνει την επαφή του οικοπέδου με τον δρόμο.",
     span: [6, 6],
   },
   {
     number: "04",
-    title: "Pelio Stone House",
-    location: "Pelion, GR",
-    year: "2022",
+    title: "Ανάπλαση Πλατείας Κουμουνδούρου",
+    location: "Αθήνα",
+    year: "—",
     description:
-      "Restoration and quiet extension of a stone shell, returning the building to its village language with a contemporary plan.",
+      "Αστική ανάπλαση κεντρικής πλατείας — επανασχεδιασμός των πεζοδρομίων, νέα φύτευση και καθιστικά με αναφορά στο υπάρχον αστικό λεξιλόγιο, χωρίς να επιβληθεί επάνω του.",
     span: [8, 4],
   },
   {
     number: "05",
-    title: "Civic Library",
-    location: "Larissa, GR",
-    year: "2021",
+    title: "Κεντρικά Γραφεία ΕΔΡΑΣΗ ΑΤΕ",
+    location: "Αττική",
+    year: "—",
     description:
-      "A small civic building organised as a single reading room with a generous canopy — public on three sides, calm in the centre.",
+      "Κτίριο γραφείων για κατασκευαστική εταιρεία — ορθολογική κάτοψη γύρω από κεντρικό κλιμακοστάσιο, εκτεθειμένο σκυρόδεμα όπου το επιτρέπει το πρόγραμμα, και εξωτερικά πετάσματα που διαχειρίζονται τη δυτική έκθεση.",
     span: [4, 8],
   },
 ];

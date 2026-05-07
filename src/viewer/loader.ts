@@ -7,14 +7,28 @@ export interface DisciplineModel {
   model: FRAGS.FragmentsModel;
 }
 
-// "01 Structural.ifc" -> "Structural" ; "architecture.ifc" -> "Architecture".
+// Greek labels for the disciplines that appear in the firm's IFC pipeline.
+// Keyed case-insensitively against the prettified filename so source files
+// stay in English (e.g. "01 Structural.ifc") while the sidebar reads in Greek.
+// Already-Greek filenames pass through untouched.
+const DISCIPLINE_LABELS: Record<string, string> = {
+  structural: "Στατικά",
+  architectural: "Αρχιτεκτονικά",
+  architecture: "Αρχιτεκτονικά",
+  mep: "Μηχανολογικά",
+  mechanical: "Μηχανολογικά",
+  "m e p": "Μηχανολογικά",
+};
+
+// "01 Structural.ifc" -> "Στατικά" ; "architecture.ifc" -> "Αρχιτεκτονικά".
 function prettifyName(filename: string): string {
   const base = filename.replace(/\.[^.]+$/, "");
   const stripped = base.replace(/^[\d\s_-]+/, "").trim();
   const words = (stripped || base).split(/[\s_-]+/);
-  return words
+  const titled = words
     .map((w) => (w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : ""))
     .join(" ");
+  return DISCIPLINE_LABELS[titled.toLowerCase()] ?? titled;
 }
 
 interface DiscoveredFile {

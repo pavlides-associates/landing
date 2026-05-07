@@ -24,10 +24,10 @@ function showMemoryPressureMessage() {
   // the user has to close something. Keep the Refresh button anyway in case
   // they did close a tab, but lead with the actual remedy.
   showOverlayMessage(
-    "This browser is low on memory.",
-    "Refresh",
+    "Ο φυλλομετρητής έμεινε από μνήμη.",
+    "Ανανέωση",
     () => window.location.reload(),
-    "Close other tabs or apps using video / 3D, wait a moment, then refresh.",
+    "Κλείστε άλλες καρτέλες ή εφαρμογές που χρησιμοποιούν βίντεο/3D, περιμένετε λίγο και ανανεώστε.",
   );
 }
 
@@ -95,8 +95,8 @@ async function main() {
       showMemoryPressureMessage();
     } else {
       showOverlayMessage(
-        "This device couldn't initialise the 3D viewer.",
-        "Reload page",
+        "Η συσκευή δεν μπόρεσε να αρχικοποιήσει το 3D viewer.",
+        "Επαναφόρτωση σελίδας",
         () => window.location.reload(),
         describeError(err),
       );
@@ -117,8 +117,8 @@ async function main() {
   } catch (err) {
     console.error("Failed to load models", err);
     showOverlayMessage(
-      "The model couldn't load on this device.",
-      "Try again",
+      "Το μοντέλο δεν μπόρεσε να φορτωθεί σε αυτή τη συσκευή.",
+      "Δοκιμάστε ξανά",
       () => window.location.reload(),
       describeError(err),
     );

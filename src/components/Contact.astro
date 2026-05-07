@@ -1,27 +1,29 @@
 ---
-// [TODO: confirm with firm — replace placeholders with real contact details]
 const office = {
-  street: "[Street and number]",
-  city: "[Postal code, City]",
-  country: "Greece",
-  phone: "+30 210 000 0000",
-  email: "office@grafpa.gr",
-  hours: "Monday – Friday, 09:00 – 18:00 EET",
-  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Athens",
+  street: "Ακταίου 40",
+  city: "118 51 — Αθήνα",
+  country: "Ελλάδα",
+  phone: "210 92 27 708",
+  phoneTel: "+302109227708",
+  email: "info@grafpa.gr",
+  website: "grafpa.gr",
+  websiteUrl: "https://grafpa.gr",
+  hours: "Δευτέρα – Παρασκευή, 09:00 – 18:00",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ακταίου+40,+Αθήνα",
 };
 ---
 <section id="contact" class="contact">
   <div class="container contact-grid">
     <div class="meta-col" data-reveal>
-      <p class="eyebrow"><span class="num">05</span> &nbsp; CONTACT</p>
+      <p class="eyebrow"><span class="num">05</span> &nbsp; ΕΠΙΚΟΙΝΩΝΙΑ</p>
     </div>
 
     <div class="body-col">
-      <h2 data-reveal>For new commissions and quiet questions.</h2>
+      <h2 data-reveal>Για νέες αναθέσεις και ήσυχες ερωτήσεις.</h2>
 
       <dl class="contact-list" data-reveal>
         <div class="contact-row">
-          <dt>Studio</dt>
+          <dt>Γραφείο</dt>
           <dd>
             {office.street}<br />
             {office.city}<br />
@@ -29,21 +31,25 @@ const office = {
           </dd>
         </div>
         <div class="contact-row">
-          <dt>Telephone</dt>
-          <dd><a href={`tel:${office.phone.replace(/\s+/g, "")}`}>{office.phone}</a></dd>
+          <dt>Τηλέφωνο</dt>
+          <dd><a href={`tel:${office.phoneTel}`}>{office.phone}</a></dd>
         </div>
         <div class="contact-row">
           <dt>Email</dt>
           <dd><a class="email" href={`mailto:${office.email}`}>{office.email}</a></dd>
         </div>
         <div class="contact-row">
-          <dt>Hours</dt>
+          <dt>Ιστοσελίδα</dt>
+          <dd><a href={office.websiteUrl} target="_blank" rel="noopener noreferrer">{office.website} ↗</a></dd>
+        </div>
+        <div class="contact-row">
+          <dt>Ωράριο</dt>
           <dd>{office.hours}</dd>
         </div>
         <div class="contact-row">
-          <dt>Map</dt>
+          <dt>Χάρτης</dt>
           <dd>
-            <a href={office.mapsUrl} target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
+            <a href={office.mapsUrl} target="_blank" rel="noopener noreferrer">Άνοιγμα στους Χάρτες Google ↗</a>
           </dd>
         </div>
       </dl>

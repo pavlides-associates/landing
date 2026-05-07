@@ -2,17 +2,14 @@
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
-  <div class="container footer-row">
-    <div class="footer-brand">
-      <span class="footer-mark" aria-hidden="true"></span>
-      <span>Pavlides Associates</span>
-    </div>
-    <p class="footer-meta">
-      © {year} ΓΡΑΦΕΙΟ ΠΑΥΛΙΔΗ Α.Τ.Ε.Μ.
-      <span class="sep">·</span>
-      [TODO: tax / corporate ID]
+  <div class="container">
+    <p class="footer-line">
+      © {year}
+      <span class="sep" aria-hidden="true">·</span>
+      Γραφείο Παυλίδη Α.Τ.Ε.Μ.
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="https://grafpa.gr" target="_blank" rel="noopener noreferrer">grafpa.gr</a><span class="ext" aria-hidden="true">↗</span>
     </p>
-    <p class="footer-credit">Site by [TODO: credit if appropriate].</p>
   </div>
 </footer>
 
@@ -20,45 +17,39 @@ const year = new Date().getFullYear();
   .site-footer {
     background: var(--paper);
     border-top: 1px solid var(--silver);
-    padding-block: 48px;
+    padding-block: 40px;
   }
-  .footer-row {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
+  .footer-line {
+    margin: 0 auto;
+    text-align: center;
     color: var(--concrete);
     font-family: var(--font-mono);
     font-size: var(--fs-small);
     text-transform: uppercase;
     letter-spacing: 0.14em;
+    line-height: 1.6;
   }
-  .footer-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+  .footer-line .sep {
+    margin: 0 10px;
+    color: var(--silver);
+  }
+  .footer-line a {
     color: var(--graphite);
-    text-transform: none;
-    letter-spacing: 0;
-    font-family: var(--font-display);
-    font-size: 16px;
-    font-variation-settings: "opsz" 14, "wght" 500;
+    border-bottom: 1px solid transparent;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    /* Cancel the trailing letter-spacing so the (eventual) hover underline
+       ends flush with the last glyph instead of overshooting by ~2px. */
+    margin-inline-end: -0.14em;
   }
-  .footer-mark {
-    width: 10px;
-    height: 10px;
-    background: var(--ink);
+  .footer-line a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
   }
-  .footer-meta { margin: 0; }
-  .footer-meta .sep { margin: 0 8px; color: var(--silver); }
-  .footer-credit { margin: 0; }
-
-  @media (min-width: 768px) {
-    .footer-row {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
+  .footer-line .ext {
+    /* Decorative external-link mark, sat outside the anchor so it doesn't
+       inherit the underline or the trailing letter-spacing. */
+    margin-inline-start: 0.4em;
+    color: var(--silver);
+    font-size: 0.85em;
   }
 </style>
