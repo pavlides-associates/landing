@@ -1,8 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // TODO(subdomain): not yet chosen. Ask before producing a production build.
-  // site: 'https://<TODO-subdomain>',
+  site: 'https://landing.grafpa.gr',
   output: 'static',
   build: {
     inlineStylesheets: 'auto',
