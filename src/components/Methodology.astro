@@ -43,10 +43,8 @@ const steps = [
       {steps.map((s) => (
         <li class="m-row" data-reveal>
           <span class="m-num" aria-hidden="true">{s.n}</span>
-          <div class="m-body">
-            <h3 class="m-title">{s.title}</h3>
-            <p class="m-text">{s.body}</p>
-          </div>
+          <h3 class="m-title">{s.title}</h3>
+          <p class="m-text">{s.body}</p>
         </li>
       ))}
     </ol>
@@ -65,40 +63,39 @@ const steps = [
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--silver);
   }
   .m-row {
-    display: grid;
-    grid-template-columns: 64px 1fr;
-    gap: 16px;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--silver);
-    align-items: baseline;
+    padding-block: 48px;
   }
+  .m-row + .m-row {
+    border-top: 1px solid var(--silver);
+  }
+  .m-row:first-child { padding-top: 0; }
+
   .m-num {
-    font-family: var(--font-mono);
-    font-size: var(--fs-h2);
-    color: var(--concrete);
-    letter-spacing: 0.04em;
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 104px);
+    font-variation-settings: "opsz" 144, "wght" 280, "SOFT" 60;
+    line-height: 0.95;
+    color: var(--silver);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
   }
   .m-title {
     font-size: var(--fs-h2);
-    margin: 0;
-    max-width: 22ch;
+    margin: 0 0 12px;
+    max-width: 28ch;
   }
   .m-text {
-    margin-top: 8px;
+    margin: 0;
     color: var(--graphite);
     max-width: 64ch;
   }
 
   @media (min-width: 768px) {
-    .m-row {
-      grid-template-columns: 96px 6fr 6fr;
-      column-gap: var(--col-gap);
-      padding: 40px 0;
-      align-items: start;
-    }
-    .m-text { margin-top: 0; }
+    .m-row { padding-block: 64px; }
+    .m-num { margin-bottom: 24px; }
+    .m-title { margin-bottom: 16px; }
   }
 </style>

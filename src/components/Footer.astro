@@ -5,10 +5,7 @@ const year = new Date().getFullYear();
   <div class="container">
     <p class="footer-line">
       © {year}
-      <span class="sep" aria-hidden="true">·</span>
       Γραφείο Παυλίδη Α.Τ.Ε.Μ.
-      <span class="sep" aria-hidden="true">·</span>
-      <a href="https://grafpa.gr" target="_blank" rel="noopener noreferrer">grafpa.gr</a><span class="ext" aria-hidden="true">↗</span>
     </p>
   </div>
 </footer>
@@ -28,28 +25,5 @@ const year = new Date().getFullYear();
     text-transform: uppercase;
     letter-spacing: 0.14em;
     line-height: 1.6;
-  }
-  .footer-line .sep {
-    margin: 0 10px;
-    color: var(--silver);
-  }
-  .footer-line a {
-    color: var(--graphite);
-    border-bottom: 1px solid transparent;
-    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-    /* Cancel the trailing letter-spacing so the (eventual) hover underline
-       ends flush with the last glyph instead of overshooting by ~2px. */
-    margin-inline-end: -0.14em;
-  }
-  .footer-line a:hover {
-    color: var(--ink);
-    border-bottom-color: var(--ink);
-  }
-  .footer-line .ext {
-    /* Decorative external-link mark, sat outside the anchor so it doesn't
-       inherit the underline or the trailing letter-spacing. */
-    margin-inline-start: 0.4em;
-    color: var(--silver);
-    font-size: 0.85em;
   }
 </style>
