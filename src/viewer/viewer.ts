@@ -134,8 +134,28 @@ export async function createViewer(container: HTMLElement): Promise<Viewer> {
   return { components, world, fragments, grid, container };
 }
 
+// Where the camera sits relative to the model centre, in spherical degrees.
+//   azimuth   — rotation around Y; 0 looks along +Z, 90 along +X
+//   elevation — pitch above horizontal; 0 is eye-level, 90 is straight down
+//   zoom      — multiplier on the bbox-fit distance (default 1 = exact fit;
+//               <1 dollies the camera closer past wider site geometry).
+//   target    — world-unit offset of the look-at point from the bbox centre.
+//               Use to pan the view onto the building when the bbox centre
+//               sits in empty slab.
+export interface ViewAngle {
+  azimuth: number;
+  elevation: number;
+  zoom?: number;
+  target?: { x?: number; y?: number; z?: number };
+}
+
+// Matches the angle previously hard-coded as (offset, offset, offset):
+// azimuth 45°, elevation arctan(1/√2) ≈ 35°. Calm 3/4 architectural view.
+export const DEFAULT_VIEW: ViewAngle = { azimuth: 45, elevation: 35 };
+
 // Frames the camera on the union of all loaded model bounding boxes.
-export function fitToModels(viewer: Viewer) {
+// `view` is the per-project camera angle override (see ProjectMeta.view).
+export function fitToModels(viewer: Viewer, view: ViewAngle = DEFAULT_VIEW) {
   const box = new THREE.Box3();
   let hasGeometry = false;
 
@@ -153,31 +173,81 @@ export function fitToModels(viewer: Viewer) {
   // basement at -3m), so world Y=0 doesn't line up with the building's slab.
   viewer.grid.three.position.y = box.min.y;
 
-  // Reset the camera direction before fitting. fitToBox preserves the current
-  // azimuth/elevation and only dollies/targets — so if the user has orbited
-  // on a prior project, that orbit would carry into the next one. Plant the
-  // camera at a known oblique angle relative to the new box's centre first,
-  // then fitToBox handles distance.
+  // Compute camera position directly from the view angle + bbox bounding
+  // sphere. We previously used fitToBox to handle distance, but with very
+  // flat boxes (a site slab much wider than tall) it stops preserving the
+  // direction we set — the camera ends up nearly straight down. Sphere-fit
+  // works for any direction and any aspect.
   const center = box.getCenter(new THREE.Vector3());
-  const size = box.getSize(new THREE.Vector3());
-  const offset = Math.max(size.x, size.y, size.z) || 20;
-  viewer.world.camera.controls.setLookAt(
-    center.x + offset,
-    center.y + offset,
-    center.z + offset,
-    center.x,
-    center.y,
-    center.z,
-    false,
+  const sphere = box.getBoundingSphere(new THREE.Sphere());
+  const radius = sphere.radius;
+  const perspective = viewer.world.camera.three as THREE.PerspectiveCamera;
+  const fov = ((perspective.fov ?? 60) * Math.PI) / 180;
+  // Small breathing room beyond the strict sphere fit so geometry doesn't
+  // graze the frame.
+  const fitDist = (radius / Math.sin(fov / 2)) * 1.05;
+
+  const azRad = (view.azimuth * Math.PI) / 180;
+  const elRad = (view.elevation * Math.PI) / 180;
+  const dir = new THREE.Vector3(
+    Math.sin(azRad) * Math.cos(elRad),
+    Math.sin(elRad),
+    Math.cos(azRad) * Math.cos(elRad),
   );
 
-  // Strict-fit framing using camera-controls' built-in. Padding leaves a
-  // small breathing edge so geometry doesn't touch the frame.
-  const PAD = 0.5;
-  void viewer.world.camera.controls.fitToBox(box, true, {
-    paddingTop: PAD,
-    paddingBottom: PAD,
-    paddingLeft: PAD,
-    paddingRight: PAD,
-  });
+  const tgtOffset = new THREE.Vector3(
+    view.target?.x ?? 0,
+    view.target?.y ?? 0,
+    view.target?.z ?? 0,
+  );
+  const target = center.clone().add(tgtOffset);
+  const distance = fitDist * (view.zoom ?? 1);
+  const cam = target.clone().add(dir.multiplyScalar(distance));
+
+  viewer.world.camera.controls.setLookAt(
+    cam.x, cam.y, cam.z,
+    target.x, target.y, target.z,
+    true,
+  );
+}
+
+// Dev/inspector hook. Returns the current camera + bbox state so a
+// positioning script can read what the user has dialled in and convert it
+// to a ViewAngle config.
+export interface CameraState {
+  cam: [number, number, number];
+  tgt: [number, number, number];
+  center: [number, number, number];
+  size: [number, number, number];
+  dist: number;
+  fov: number;
+}
+
+export function getCameraState(viewer: Viewer): CameraState | null {
+  const pos = new THREE.Vector3();
+  const tgt = new THREE.Vector3();
+  viewer.world.camera.controls.getPosition(pos);
+  viewer.world.camera.controls.getTarget(tgt);
+  const box = new THREE.Box3();
+  let any = false;
+  for (const model of viewer.fragments.list.values()) {
+    const b = new THREE.Box3().setFromObject(model.object);
+    if (b.isEmpty()) continue;
+    box.union(b);
+    any = true;
+  }
+  if (!any) return null;
+  const center = new THREE.Vector3();
+  const size = new THREE.Vector3();
+  box.getCenter(center);
+  box.getSize(size);
+  const perspective = viewer.world.camera.three as THREE.PerspectiveCamera;
+  return {
+    cam: [pos.x, pos.y, pos.z],
+    tgt: [tgt.x, tgt.y, tgt.z],
+    center: [center.x, center.y, center.z],
+    size: [size.x, size.y, size.z],
+    dist: viewer.world.camera.controls.distance,
+    fov: perspective.fov ?? 60,
+  };
 }

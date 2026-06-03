@@ -1,5 +1,5 @@
 import "./style.css";
-import { createViewer, fitToModels, type Viewer } from "./viewer";
+import { createViewer, fitToModels, getCameraState, type Viewer } from "./viewer";
 import { loadProject, unloadAll } from "./loader";
 import { buildSidebar, hideLoading, setupProjectNav, setupSidebarToggle, showLoading, showOverlayMessage, updateProjectHeading } from "./ui";
 import { DEFAULT_PROJECT, PROJECTS } from "./projects";
@@ -91,7 +91,7 @@ async function switchToProject(viewer: Viewer, projectNumber: string) {
       await unloadAll(viewer);
       const disciplines = await loadProject(viewer, projectNumber);
       buildSidebar(viewer, disciplines);
-      fitToModels(viewer);
+      fitToModels(viewer, meta.view);
       hideLoading();
     } catch (err) {
       console.error(`Failed to load project ${projectNumber}`, err);
@@ -143,6 +143,11 @@ async function main() {
 
   setupOffscreenPause(viewer);
   setupProjectNav((projectNumber) => switchToProject(viewer, projectNumber));
+
+  // Dev hook for the interactive camera-positioning script in
+  // /tmp/pavlides-verify/. Harmless in production — namespaced global.
+  (window as unknown as { __viewerCamera?: () => unknown }).__viewerCamera =
+    () => getCameraState(viewer);
 
   await switchToProject(viewer, DEFAULT_PROJECT);
 }
