@@ -1,6 +1,70 @@
 /* Viewer styles — scoped to .viewer-host (the embedded section in
    ViewerShowcase.astro). Do NOT add html/body resets here; the page owns those. */
 
+/* Project nav lives in .showcase-head, above the viewer. Dark theme matches
+   the rest of the showcase chrome. */
+.viewer-showcase .project-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 36px;
+}
+
+.viewer-showcase .project-nav-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #C9C4BC;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.viewer-showcase .project-nav-item:hover {
+  border-color: rgba(255, 255, 255, 0.32);
+  color: var(--paper);
+}
+
+.viewer-showcase .project-nav-item.active {
+  border-color: var(--accent);
+  color: var(--paper);
+  background: rgba(178, 60, 46, 0.08);
+}
+
+.viewer-showcase .project-nav-item .project-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.viewer-showcase .project-nav-item .project-title {
+  font-size: 14px;
+  font-variation-settings: "wght" 420;
+}
+
+@media (max-width: 600px) {
+  .viewer-showcase .project-nav { gap: 8px; }
+  .viewer-showcase .project-nav-item {
+    padding: 9px 12px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .viewer-showcase .project-nav-item .project-title {
+    /* Mobile: keep titles short by truncating gracefully if a name is long. */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
 .viewer-host {
   --vh-bg: #1a1a1a;
   --vh-panel: rgba(28, 28, 28, 0.92);
@@ -17,7 +81,9 @@
 
 .viewer-host #viewer canvas { display: block; }
 
-/* Toggle button — anchored inside .viewer-host, top-right. */
+/* Toggle button — anchored inside .viewer-host, top-right. Accent fill so
+   first-time viewers notice the sidebar entry point; it's the only way to
+   reach the opacity sliders. */
 .viewer-host #sidebar-toggle {
   position: absolute;
   top: 16px;
@@ -28,16 +94,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--vh-panel);
-  border: 1px solid var(--vh-border);
-  color: var(--vh-text);
+  background: var(--vh-accent);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
   cursor: pointer;
-  backdrop-filter: blur(8px);
   -webkit-tap-highlight-color: transparent;
   transition: background 0.15s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 
-.viewer-host #sidebar-toggle:hover { background: rgba(40, 40, 40, 0.95); }
+.viewer-host #sidebar-toggle:hover { background: #9C3327; }
+/* While the sidebar is open the button is just a dismiss affordance —
+   tone it down so the accent isn't shouting over the open panel. */
+.viewer-host #sidebar-toggle.open {
+  background: var(--vh-panel);
+  border-color: var(--vh-border);
+  color: var(--vh-text);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+}
+.viewer-host #sidebar-toggle.open:hover { background: rgba(40, 40, 40, 0.95); }
 .viewer-host #sidebar-toggle .icon-close { display: none; }
 .viewer-host #sidebar-toggle.open .icon-open { display: none; }
 .viewer-host #sidebar-toggle.open .icon-close { display: block; }

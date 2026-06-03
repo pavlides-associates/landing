@@ -58,6 +58,30 @@ export function hideLoading() {
   document.getElementById("loading")?.classList.add("hidden");
 }
 
+// Re-show the loading overlay between project switches. The overlay was
+// originally only hidden once on first paint, but with switching it needs to
+// come back. Also resets the overlay content in case a prior error message
+// was substituted in by showOverlayMessage.
+export function showLoading() {
+  const overlay = document.getElementById("loading");
+  if (!overlay) return;
+  overlay.classList.remove("hidden");
+
+  const hasSpinner = overlay.querySelector(".loading-bar");
+  if (hasSpinner) return; // already in loading state
+
+  overlay.replaceChildren();
+  const label = document.createElement("span");
+  label.className = "loading-label";
+  label.textContent = "Φόρτωση μοντέλου";
+  overlay.appendChild(label);
+
+  const bar = document.createElement("span");
+  bar.className = "loading-bar";
+  bar.setAttribute("aria-hidden", "true");
+  overlay.appendChild(bar);
+}
+
 // Repurpose the loading overlay as a status surface. Used when init or load
 // fails (mobile OOM, missing manifest) and when the WebGL context drops.
 export function showOverlayMessage(
@@ -126,4 +150,33 @@ export function setupSidebarToggle() {
     if (sidebar.contains(target) || toggle.contains(target)) return;
     setOpen(false);
   });
+}
+
+// Wires the project tabs rendered by ViewerShowcase.astro. Each tab carries
+// data-project="<number>"; clicking fires the handler with that number.
+export function setupProjectNav(onSelect: (projectNumber: string) => void) {
+  const nav = document.querySelector<HTMLElement>("[data-project-nav]");
+  if (!nav) return;
+  const buttons = Array.from(nav.querySelectorAll<HTMLButtonElement>("[data-project]"));
+
+  for (const btn of buttons) {
+    btn.addEventListener("click", () => {
+      const project = btn.dataset.project;
+      if (!project) return;
+      if (btn.classList.contains("active")) return; // already selected
+      for (const b of buttons) {
+        const isMe = b === btn;
+        b.classList.toggle("active", isMe);
+        b.setAttribute("aria-pressed", String(isMe));
+      }
+      onSelect(project);
+    });
+  }
+}
+
+// Updates the showcase heading + the eyebrow's project number marker when
+// the active project changes.
+export function updateProjectHeading(title: string) {
+  const el = document.querySelector<HTMLElement>("[data-project-heading]");
+  if (el) el.textContent = title;
 }

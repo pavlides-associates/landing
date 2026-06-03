@@ -1,15 +1,30 @@
 ---
+import { PROJECTS, DEFAULT_PROJECT } from "../viewer/projects";
+const defaultProject = PROJECTS.find((p) => p.number === DEFAULT_PROJECT) ?? PROJECTS[0];
 ---
 <section id="showcase" class="viewer-showcase" aria-labelledby="viewer-heading">
   <div class="container showcase-head">
     <p class="eyebrow" data-reveal><span class="num">01</span> &nbsp; ΣΥΝΑΡΜΟΓΗ ΜΟΝΤΕΛΩΝ — FEDERATED MODELS</p>
-    <h2 id="viewer-heading" data-reveal>
-      ΤΕΠ Ερυθρού Σταυρού
+    <h2 id="viewer-heading" data-reveal data-project-heading>
+      {defaultProject.title}
     </h2>
     <p class="lead" data-reveal>
       Αρχιτεκτονικό, στατικό και ηλεκτρομηχανολογικό μοντέλο— σχεδιασμένα μαζί, σε ένα ενιαίο BIM
       περιβάλλον.
     </p>
+    <nav class="project-nav" data-project-nav data-reveal aria-label="Επιλογή έργου">
+      {PROJECTS.map((p) => (
+        <button
+          type="button"
+          class:list={["project-nav-item", { active: p.number === DEFAULT_PROJECT }]}
+          data-project={p.number}
+          aria-pressed={p.number === DEFAULT_PROJECT ? "true" : "false"}
+        >
+          <span class="project-num">{p.number}</span>
+          <span class="project-title">{p.title}</span>
+        </button>
+      ))}
+    </nav>
   </div>
 
   <div class="viewer-host" data-viewer-host>

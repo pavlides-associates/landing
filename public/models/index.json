@@ -1,6 +1,14 @@
 [
-  "01 Structural.frag",
-  "02 MEP.frag",
-  "03 ARCHITECTURAL.frag",
-  "04 Equipment.frag"
+  "406.1 Architectural.frag",
+  "406.1 Equipment.frag",
+  "406.1 MEP.frag",
+  "406.1 Structural.frag",
+  "413 Architectural.frag",
+  "413 Envelope.frag",
+  "413 MEP.frag",
+  "413 Structural.frag",
+  "425 Architectural.frag",
+  "425 Equipment.frag",
+  "425 MEP.frag",
+  "425 Structural.frag"
 ]

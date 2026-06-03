@@ -1,7 +1,8 @@
 import "./style.css";
 import { createViewer, fitToModels, type Viewer } from "./viewer";
-import { loadAll } from "./loader";
-import { buildSidebar, hideLoading, setupSidebarToggle, showOverlayMessage } from "./ui";
+import { loadProject, unloadAll } from "./loader";
+import { buildSidebar, hideLoading, setupProjectNav, setupSidebarToggle, showLoading, showOverlayMessage, updateProjectHeading } from "./ui";
+import { DEFAULT_PROJECT, PROJECTS } from "./projects";
 
 function canCreateWebGLContext(): boolean {
   try {
@@ -72,6 +73,39 @@ function setupOffscreenPause(viewer: Viewer) {
   io.observe(host);
 }
 
+// Loads (or reloads) a project's models. Used both for the initial load and
+// for every nav click. Serialized via `switching` so rapid taps don't
+// interleave disposals with in-flight loads.
+let switching: Promise<void> = Promise.resolve();
+
+async function switchToProject(viewer: Viewer, projectNumber: string) {
+  switching = switching.then(async () => {
+    const meta = PROJECTS.find((p) => p.number === projectNumber);
+    if (!meta) {
+      console.warn(`Unknown project ${projectNumber}`);
+      return;
+    }
+    showLoading();
+    updateProjectHeading(meta.title);
+    try {
+      await unloadAll(viewer);
+      const disciplines = await loadProject(viewer, projectNumber);
+      buildSidebar(viewer, disciplines);
+      fitToModels(viewer);
+      hideLoading();
+    } catch (err) {
+      console.error(`Failed to load project ${projectNumber}`, err);
+      showOverlayMessage(
+        "Το μοντέλο δεν μπόρεσε να φορτωθεί σε αυτή τη συσκευή.",
+        "Δοκιμάστε ξανά",
+        () => window.location.reload(),
+        describeError(err),
+      );
+    }
+  });
+  return switching;
+}
+
 async function main() {
   const container = document.getElementById("viewer");
   if (!container) throw new Error("#viewer container missing");
@@ -108,21 +142,9 @@ async function main() {
   if (canvas) attachContextLossWatch(canvas);
 
   setupOffscreenPause(viewer);
+  setupProjectNav((projectNumber) => switchToProject(viewer, projectNumber));
 
-  try {
-    const disciplines = await loadAll(viewer);
-    buildSidebar(viewer, disciplines);
-    fitToModels(viewer);
-    hideLoading();
-  } catch (err) {
-    console.error("Failed to load models", err);
-    showOverlayMessage(
-      "Το μοντέλο δεν μπόρεσε να φορτωθεί σε αυτή τη συσκευή.",
-      "Δοκιμάστε ξανά",
-      () => window.location.reload(),
-      describeError(err),
-    );
-  }
+  await switchToProject(viewer, DEFAULT_PROJECT);
 }
 
 function describeError(err: unknown): string {

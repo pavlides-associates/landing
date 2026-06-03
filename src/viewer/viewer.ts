@@ -153,11 +153,26 @@ export function fitToModels(viewer: Viewer) {
   // basement at -3m), so world Y=0 doesn't line up with the building's slab.
   viewer.grid.three.position.y = box.min.y;
 
-  // Strict-fit framing using camera-controls' built-in. Keeps the current
-  // azimuth/elevation (set in createViewer) and just dollies/targets so the
-  // bounding box fills the viewport — much tighter than the old hand-tuned
-  // multiplier. Padding leaves a small breathing edge so geometry doesn't
-  // touch the frame.
+  // Reset the camera direction before fitting. fitToBox preserves the current
+  // azimuth/elevation and only dollies/targets — so if the user has orbited
+  // on a prior project, that orbit would carry into the next one. Plant the
+  // camera at a known oblique angle relative to the new box's centre first,
+  // then fitToBox handles distance.
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3());
+  const offset = Math.max(size.x, size.y, size.z) || 20;
+  viewer.world.camera.controls.setLookAt(
+    center.x + offset,
+    center.y + offset,
+    center.z + offset,
+    center.x,
+    center.y,
+    center.z,
+    false,
+  );
+
+  // Strict-fit framing using camera-controls' built-in. Padding leaves a
+  // small breathing edge so geometry doesn't touch the frame.
   const PAD = 0.5;
   void viewer.world.camera.controls.fitToBox(box, true, {
     paddingTop: PAD,

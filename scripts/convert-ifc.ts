@@ -61,13 +61,27 @@ async function main() {
   }
 
   const manifest: string[] = [];
+  const expectedFrags = new Set<string>();
 
   for (const file of ifcFiles) {
     const inPath = path.join(SRC, file);
     const outName = file.replace(/\.ifc$/i, ".frag");
     const outPath = path.join(OUT, outName);
+    expectedFrags.add(outName);
 
     const inSize = fs.statSync(inPath).size;
+    const inMtime = fs.statSync(inPath).mtimeMs;
+
+    // make-style skip: if the .frag already exists and is at least as new as
+    // the source .ifc, the previous conversion is still valid. Re-converting
+    // a multi-hundred-MB IFC takes minutes, so this matters in practice.
+    if (fs.existsSync(outPath) && fs.statSync(outPath).mtimeMs >= inMtime) {
+      const outSize = fs.statSync(outPath).size;
+      console.log(`  ${file} (${prettyBytes(inSize)})… skipped (up to date, ${prettyBytes(outSize)})`);
+      manifest.push(outName);
+      continue;
+    }
+
     const t0 = Date.now();
     process.stdout.write(`  ${file} (${prettyBytes(inSize)})… `);
     try {
@@ -79,6 +93,16 @@ async function main() {
       console.log("FAILED");
       console.error(err);
     }
+  }
+
+  // Prune orphan .frag files (sources removed or renamed). Without this, the
+  // manifest would still reference them and the loader would keep loading
+  // stale geometry.
+  for (const existing of fs.readdirSync(OUT)) {
+    if (!existing.toLowerCase().endsWith(".frag")) continue;
+    if (expectedFrags.has(existing)) continue;
+    fs.unlinkSync(path.join(OUT, existing));
+    console.log(`  pruned orphan ${existing}`);
   }
 
   // Manifest is what the runtime loader reads — public/ files aren't visible
