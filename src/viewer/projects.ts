@@ -24,7 +24,7 @@ export const PROJECTS: ProjectMeta[] = [
   {
     number: "413",
     title: "Έδρα Τ.Ε. Πάνω Σούδας",
-    view: { azimuth: -179.47, elevation: 3.37, zoom: 0.099, target: { x: -5.97, y: 0.55, z: 0.09 } },
+    view: { azimuth: -179.47, elevation: 3.37, zoom: 0.4, target: { x: -5.97, y: 0.55, z: 0.09 } },
   },
   {
     number: "425",
