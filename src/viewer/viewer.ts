@@ -160,7 +160,13 @@ export function fitToModels(viewer: Viewer, view: ViewAngle = DEFAULT_VIEW) {
   let hasGeometry = false;
 
   for (const model of viewer.fragments.list.values()) {
-    const modelBox = new THREE.Box3().setFromObject(model.object);
+    // Use the model's own bounding box (from fragment metadata) rather than
+    // setFromObject(model.object). The latter only sees meshes the fragments
+    // worker has already culled into the scene, which on the very first load
+    // (cold worker) aren't there yet — leaving the box empty and the camera
+    // stuck at its default angle. model.box is populated as soon as load()
+    // resolves and is independent of culling.
+    const modelBox = model.box;
     if (modelBox.isEmpty()) continue;
     box.union(modelBox);
     hasGeometry = true;
